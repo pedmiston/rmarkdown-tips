@@ -1,0 +1,56 @@
+---
+title: Tips for Rmarkdown document development
+output:
+  bookdown::html_document2:
+    keep_md: yes
+---
+```{r config, include=FALSE}
+library(knitr)
+opts_chunk$set(echo=FALSE, message=FALSE)
+```
+
+# `knitr::read_chunk`
+
+```{r echo=TRUE}
+read_chunk("R/exp1.R")
+```
+
+```{r exp1}
+```
+
+```{r fig1, fig.width=4, fig.height=4}
+exp1_plot + ggtitle("Experiment 1")
+```
+
+# `pandoc`
+
+## pandoc arguments
+
+```{r engine="bash"}
+pandoc --help
+```
+
+## Inputs
+
+```{r}
+inputs <- system("pandoc --list-input-formats", intern = TRUE)
+inputs
+```
+
+## Outputs
+
+```{r}
+outputs <- system("pandoc --list-output-formats", intern = TRUE)
+kable(outputs)
+```
+
+# Dynamic references
+
+Our main results are shown in Fig \@ref(fig:outcome-plot).
+
+(ref:output-plot-caption) Main results of Experiment 1. This is the caption text
+that is passed to the `fig.cap` chunk option.
+
+```{r outcome-plot, echo=FALSE, fig.cap="(ref:output-plot-caption)"}
+exp1_plot
+```
